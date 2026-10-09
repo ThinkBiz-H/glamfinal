@@ -6,14 +6,16 @@ import {
   type AddressParts,
 } from "@/lib/geolocation";
 
-const CACHE_KEY = "glamride:current-location:v2";
-const LEGACY_CACHE_KEY = "glamride:current-location";
+const CACHE_KEY = "glamride:current-location:v3";
+const LEGACY_CACHE_KEYS = ["glamride:current-location", "glamride:current-location:v2"];
 const CACHE_TTL_MS = 24 * 60 * 60 * 1000;
 
 export type LocationError = "permission-denied" | "unavailable" | "geocode-failed";
 
 export type CurrentLocation = {
   address: string | null;
+  /** Neighbourhood-level name (suburb or locality), when known. */
+  area: string | null;
   city: string | null;
   state: string | null;
   latitude: number | null;
@@ -27,6 +29,7 @@ type CachedLocation = Omit<Resolved, "error"> & { savedAt: number };
 
 const EMPTY: Resolved = {
   address: null,
+  area: null,
   city: null,
   state: null,
   latitude: null,
@@ -37,7 +40,7 @@ const EMPTY: Resolved = {
 function readCache(): Resolved | null {
   if (typeof window === "undefined") return null;
   try {
-    localStorage.removeItem(LEGACY_CACHE_KEY);
+    for (const key of LEGACY_CACHE_KEYS) localStorage.removeItem(key);
     const raw = localStorage.getItem(CACHE_KEY);
     if (!raw) return null;
     const { savedAt, ...location } = JSON.parse(raw) as CachedLocation;
@@ -92,6 +95,7 @@ function resolveLocation(): Promise<Resolved> {
       const address = place ? formatAddress(place.parts) : null;
       const location = {
         address,
+        area: place?.parts.suburb || place?.parts.locality || null,
         city: place?.parts.city || null,
         state: place?.parts.state || null,
         latitude: lat,
