@@ -74,16 +74,38 @@ export function HomeHero() {
         <div className="absolute inset-0 bg-black/10" />
 
         {/* Search Card */}
-        <div className="absolute top-1 sm:top-6 md:top-2 left-1/2 z-30 w-[92%] max-w-2xl -translate-x-1/2">
-          <div className="overflow-hidden rounded-2xl border border-white/30 bg-white/20 backdrop-blur-2xl shadow-2xl">
-            <div className="mx-5 h-px bg-white/20" />
+        {/* Search Card */}
+        <div className="absolute top-4 sm:top-6 md:top-8 left-1/2 z-30 w-[92%] max-w-2xl -translate-x-1/2">
+          {/* LOCATION - NO BACKGROUND */}
+          <button className="mb-3 flex w-full items-center gap-3 text-left">
+            <div className="grid h-10 w-10 place-items-center">
+              {currentLocation.loading ? (
+                <Loader2 className="h-5 w-5 animate-spin text-primary" />
+              ) : (
+                <MapPin className="h-5 w-5 text-primary" />
+              )}
+            </div>
 
-            <Link to="/search" className="flex items-center gap-3 px-2 py-4">
-              <Search className="h-5 w-5 text-black" />
+            <div className="flex-1 overflow-hidden">
+              <p className="text-[11px] uppercase tracking-wider text-black/60">Current Location</p>
 
-              <span className="text-sm text-black/90">Search Facial, Haircut, Makeup...</span>
-            </Link>
-          </div>
+              <p className="truncate text-sm font-semibold text-black">{address}</p>
+            </div>
+
+            <ChevronDown className="h-5 w-5 text-black" />
+          </button>
+
+          {/* SEARCH BOX - GLASS */}
+          <Link
+            to="/search"
+            className="flex items-center gap-3 rounded-2xl bg-white px-5 py-4 shadow-2xl transition-all hover:bg-gray-50"
+          >
+            <Search className="h-5 w-5 text-black" />
+
+            <span className="text-sm font-medium text-black">
+              Search Facial, Haircut, Makeup...
+            </span>
+          </Link>
         </div>
       </div>
     </section>
