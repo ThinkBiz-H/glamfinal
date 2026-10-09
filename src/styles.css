@@ -1,0 +1,235 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * GlamRide design system — the single source of truth for color, radius,
+ * shadow and type. Components consume these only through Tailwind utilities
+ * (bg-primary, text-muted-foreground, rounded-2xl, shadow-soft, ...), so
+ * re-theming the app means editing this file alone.
+ *
+ * Brand
+ *   Primary   #357ee5  buttons, active states, links, icons, key actions
+ *   Highlight #29e5da  badges, highlights, gradients, success, accents only
+ *   Canvas    #fff9f2  global background
+ *
+ * To add a new semantic color:
+ * 1. Add the variable to :root
+ * 2. Register it in @theme inline as --color-<name>: var(--<name>)
+ */
+
+@theme inline {
+  --font-display: "Plus Jakarta Sans", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* Radius scale — tuned so cards land at 16px and controls at 12px. */
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 10px;
+  --radius-xl: 12px;
+  --radius-2xl: 14px;
+  --radius-3xl: 16px;
+  --radius-4xl: 20px;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-highlight: var(--highlight);
+  --color-highlight-foreground: var(--highlight-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+  --color-overlay: var(--overlay);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+:root {
+  /* ---- Brand ---- */
+  --brand-primary: #357ee5;
+  --brand-secondary: #29e5da;
+  --brand-canvas: #fff9f2;
+
+  /* ---- Surfaces & text ---- */
+  --background: var(--brand-canvas);
+  --foreground: #1f2937;
+  --card: #ffffff;
+  --card-foreground: #1f2937;
+  --popover: #ffffff;
+  --popover-foreground: #1f2937;
+  --muted: #f6f1ea;
+  --muted-foreground: #6b7280;
+  --border: #e5e7eb;
+  --input: #e5e7eb;
+  --overlay: rgb(17 24 39 / 0.45);
+
+  /* ---- Actions ---- */
+  --primary: var(--brand-primary);
+  --primary-foreground: #ffffff;
+  --ring: var(--brand-primary);
+  /* Hover / ghost / menu-item surface */
+  --accent: rgba(53, 126, 229, 0.08);
+  --accent-foreground: #1f2937;
+
+  /* ---- Highlights (secondary brand color) ---- */
+  /* Solid highlight — badges, success marks, decorative accents. */
+  --highlight: var(--brand-secondary);
+  --highlight-foreground: #053c39;
+  /* Soft highlight surface — chips, eyebrows, selected tiles. */
+  --secondary: #e3fbf9;
+  --secondary-foreground: #0b5e59;
+  --success: var(--brand-secondary);
+  --success-foreground: #053c39;
+
+  --destructive: #dc2626;
+  --destructive-foreground: #ffffff;
+
+  /* ---- Tints (category tiles etc.) ---- */
+  --tint-primary: #eaf2fd;
+  --tint-highlight: #e3fbf9;
+  --tint-blend: #e6f6fb;
+
+  /* ---- Gradients ---- */
+  --gradient-hero:
+    radial-gradient(60% 70% at 90% 0%, rgb(41 229 218 / 0.18) 0%, transparent 60%),
+    radial-gradient(55% 60% at 0% 100%, rgb(53 126 229 / 0.12) 0%, transparent 60%),
+    var(--brand-canvas);
+  /* Blue-dominant so white text stays legible; cyan enters as a corner glow. */
+  --gradient-primary:
+    radial-gradient(110% 120% at 100% 0%, rgb(41 229 218 / 0.55) 0%, transparent 50%),
+    linear-gradient(135deg, var(--brand-primary) 0%, #2563c9 100%);
+
+  /* ---- Elevation ---- */
+  --shadow-soft: 0 1px 2px rgb(31 41 55 / 0.04), 0 4px 16px -6px rgb(31 41 55 / 0.08);
+  --shadow-lift: 0 2px 6px rgb(31 41 55 / 0.05), 0 16px 40px -12px rgb(53 126 229 / 0.22);
+  --shadow-focus: 0 0 0 4px rgb(53 126 229 / 0.16);
+
+  /* ---- Charts ---- */
+  --chart-1: var(--brand-primary);
+  --chart-2: var(--brand-secondary);
+  --chart-3: #1e4f99;
+  --chart-4: #8bb8f2;
+  --chart-5: #14a69d;
+
+  /* ---- Sidebar ---- */
+  --sidebar: #ffffff;
+  --sidebar-foreground: #1f2937;
+  --sidebar-primary: var(--brand-primary);
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: var(--accent);
+  --sidebar-accent-foreground: #1f2937;
+  --sidebar-border: #e5e7eb;
+  --sidebar-ring: var(--brand-primary);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    font-feature-settings: "cv11", "ss01";
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  .font-display {
+    font-family: var(--font-display);
+    letter-spacing: -0.022em;
+    line-height: 1.2;
+  }
+
+  ::selection {
+    background: rgb(41 229 218 / 0.35);
+    color: var(--color-foreground);
+  }
+
+  :focus-visible {
+    outline-color: var(--color-ring);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+}
+
+@utility surface-glass {
+  background: color-mix(in oklab, var(--background) 82%, transparent);
+  backdrop-filter: blur(14px) saturate(1.4);
+}
+
+@utility shadow-soft {
+  box-shadow: var(--shadow-soft);
+}
+
+@utility shadow-lift {
+  box-shadow: var(--shadow-lift);
+}
+
+@utility shadow-focus {
+  box-shadow: var(--shadow-focus);
+}
+
+@utility bg-hero {
+  background: var(--gradient-hero);
+}
+
+@utility bg-gradient-brand {
+  background-image: var(--gradient-primary);
+}
+
+@utility hover-lift {
+  transition:
+    transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lift);
+    border-color: color-mix(in oklab, var(--primary) 25%, var(--border));
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(Get-ChildItem -Force | Select-Object Name; Get-Content package.json; Get-ChildItem src -Recurse -File | Where-Object { $_.FullName -notmatch 'node_modules' } | ForEach-Object { $_.FullName.Replace\\(\\(Get-Location\\).Path + '\\\\',''\\) })",
+      "PowerShell(node \"C:\\\\Users\\\\THINKB~1\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\d--glamridefinal-glameridefinal-main\\\\25f88606-c32d-4981-bb02-231dd453bf2c\\\\scratchpad\\\\retheme.mjs\" \"D:\\\\glamridefinal\\\\glameridefinal-main\\\\src\\\\components\\\\ui\")",
+      "PowerShell(Add-Type -AssemblyName System.Drawing; Get-ChildItem public, src\\\\assets -File | ForEach-Object { try { $i=[System.Drawing.Image]::FromFile\\($_.FullName\\); \"{0}`t{1}x{2}`t{3} KB\" -f $_.Name,$i.Width,$i.Height,[math]::Round\\($_.Length/1KB\\); $i.Dispose\\(\\) } catch { \"{0}`t\\(not an image / unreadable\\)`t{1} KB\" -f $_.Name,[math]::Round\\($_.Length/1KB\\) } }; python --version)",
+      "PowerShell(foreach \\($c in 'py','python3'\\) { try { & $c --version 2>$null } catch {} }; Get-ChildItem \"$env:LOCALAPPDATA\\\\Programs\\\\Python\" -Recurse -Filter python.exe -ErrorAction SilentlyContinue | Select-Object -First 3 -ExpandProperty FullName; Get-ChildItem public -Force | Select-Object @{n='Name';e={\"[\" + $_.Name + \"]\"}}, Length)",
+      "PowerShell(py -c \"import openpyxl, sys; print\\(openpyxl.__version__, sys.version\\)\")",
+      "PowerShell(py -m pip install --user openpyxl 2>&1)",
+      "PowerShell(py \"C:\\\\Users\\\\THINKB~1\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\d--glamridefinal-glameridefinal-main\\\\25f88606-c32d-4981-bb02-231dd453bf2c\\\\scratchpad\\\\image_audit.py\" \"D:\\\\glamridefinal\\\\glameridefinal-main\\\\image-audit-report.xlsx\")",
+      "PowerShell(py -c \"import openpyxl; wb=openpyxl.load_workbook\\(r'D:\\\\glamridefinal\\\\glameridefinal-main\\\\image-audit-report.xlsx'\\); [print\\(ws.title, ws.max_row-1, 'rows x', ws.max_column, 'cols |', [c.value for c in ws[1]][:5]\\) for ws in wb]; ws=wb['Image Audit']; print\\([c.value for c in ws[8]][:11]\\)\")",
+      "PowerShell(py -c \"import openpyxl; wb=openpyxl.load_workbook\\(r'D:\\\\glamridefinal\\\\glameridefinal-main\\\\image-audit-report.xlsx'\\); print\\(wb.sheetnames\\); a=wb['Image Audit']; print\\(a.max_row-1, 'audit rows; first:', [c.value for c in a[2]][:6]\\); print\\('last:', a.cell\\(a.max_row,1\\).value\\); b=wb['Image Assets Required']; print\\(b.max_row-1, 'assets; first:', [c.value for c in b[2]][:4]\\); print\\('header ok:', [c.value for c in a[1]] == ['Page','Component Name','Image Purpose','Image Source \\(API/Local\\)','Container Width \\(Desktop\\)','Container Height \\(Desktop\\)','Container Width \\(Tablet\\)','Container Height \\(Tablet\\)','Container Width \\(Mobile\\)','Container Height \\(Mobile\\)','Aspect Ratio','CSS Classes Applied','object-fit \\(cover/contain\\)','Recommended Image Size \\(px\\)','Recommended Aspect Ratio','Notes']\\)\")"
+    ]
+  }
+}
