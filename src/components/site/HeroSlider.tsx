@@ -15,7 +15,7 @@ export type HeroSlide = {
 };
 
 const arrowClass =
-  "pointer-events-auto grid h-10 w-10 place-items-center rounded-full bg-white/90 text-black shadow-lg backdrop-blur transition hover:scale-105 hover:bg-white";
+  "pointer-events-auto grid h-10 w-10 place-items-center rounded-full bg-white/90 text-black shadow-xl backdrop-blur transition hover:scale-105";
 
 export function HeroSlider({ slides, className }: { slides: HeroSlide[]; className?: string }) {
   const [swiper, setSwiper] = useState<SwiperInstance | null>(null);
@@ -26,7 +26,7 @@ export function HeroSlider({ slides, className }: { slides: HeroSlide[]; classNa
   const multiple = slides.length > 1;
 
   return (
-    <div className={cn("group relative h-full w-full overflow-hidden", className)}>
+    <div className={cn("relative h-full w-full overflow-hidden bg-black", className)}>
       <Swiper
         modules={[Autoplay, EffectFade]}
         effect="fade"
@@ -47,12 +47,26 @@ export function HeroSlider({ slides, className }: { slides: HeroSlide[]; classNa
         className="h-full w-full"
       >
         {slides.map((slide, index) => (
-          <SwiperSlide key={slide.id}>
+          <SwiperSlide key={slide.id} className="flex items-center justify-center bg-black">
             <img
               src={slide.src}
               alt={slide.alt}
               loading={index === 0 ? "eager" : "lazy"}
-              className="h-full w-full object-cover object-center"
+              draggable={false}
+              className="
+                block
+                h-full
+                w-full
+
+                object-contain
+                md:object-cover
+
+                object-center
+
+                select-none
+                transition-all
+                duration-700
+              "
             />
           </SwiperSlide>
         ))}
@@ -62,9 +76,10 @@ export function HeroSlider({ slides, className }: { slides: HeroSlide[]; classNa
         <>
           <button
             onClick={() => swiper?.slidePrev()}
+            aria-label="Previous slide"
             className={cn(
               arrowClass,
-              "absolute left-4 top-1/2 z-20 -translate-y-1/2 opacity-0 transition group-hover:opacity-100",
+              "hidden md:grid absolute left-5 top-1/2 z-20 -translate-y-1/2",
             )}
           >
             <ChevronLeft size={20} />
@@ -72,21 +87,23 @@ export function HeroSlider({ slides, className }: { slides: HeroSlide[]; classNa
 
           <button
             onClick={() => swiper?.slideNext()}
+            aria-label="Next slide"
             className={cn(
               arrowClass,
-              "absolute right-4 top-1/2 z-20 -translate-y-1/2 opacity-0 transition group-hover:opacity-100",
+              "hidden md:grid absolute right-5 top-1/2 z-20 -translate-y-1/2",
             )}
           >
             <ChevronRight size={20} />
           </button>
 
-          <div className="absolute bottom-5 left-1/2 z-20 flex -translate-x-1/2 gap-2">
+          <div className="absolute bottom-5 md:bottom-8 left-1/2 z-20 flex -translate-x-1/2 gap-2 rounded-full bg-black/30 px-4 py-2 backdrop-blur">
             {slides.map((_, i) => (
               <button
                 key={i}
                 onClick={() => swiper?.slideToLoop(i)}
+                aria-label={`Go to slide ${i + 1}`}
                 className={cn(
-                  "h-2 rounded-full transition-all",
+                  "h-2 rounded-full transition-all duration-300",
                   active === i ? "w-8 bg-white" : "w-2 bg-white/60 hover:bg-white",
                 )}
               />

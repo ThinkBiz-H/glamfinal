@@ -109,6 +109,8 @@ export interface BannerRow {
 export interface CategoryRow {
   cat_id: string;
   cat_name: string;
+  cat_img?: string;
+  cat_subtitle?: string;
   [key: string]: unknown;
 }
 

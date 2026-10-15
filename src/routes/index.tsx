@@ -1,97 +1,70 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { ShieldCheck, Clock, BadgeCheck } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
+import { createFileRoute } from "@tanstack/react-router";
 import { Section, SectionHeading, TileCard } from "@/components/site/primitives";
 import { HomeHero } from "@/components/site/home-hero";
+import { QuickCategories } from "@/components/site/quick-categories";
+import { PopularServices } from "@/components/site/popular-services";
+import { BeautyPackages } from "@/components/site/beauty-packages";
+import { WhyChooseUs } from "@/components/site/why-choose-us";
+import { CustomerReviews } from "@/components/site/customer-reviews";
+import { DownloadApp } from "@/components/site/download-app";
 import { resolveImageUrl } from "@/api/client";
 import { useHomeData } from "@/hooks/use-catalog";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "GlamRide — Salon & Spa Services At Home" },
+      { title: "GlamRide — Luxury Salon & Spa Services at Home" },
       {
         name: "description",
         content:
-          "Book facials, hair, makeup, spa and grooming services at home with vetted professionals.",
+          "Book verified at-home beauty professionals for facials, waxing, manicure, pedicure, hair styling, and spa rituals. 100% sealed mono-dose products and transparent pricing.",
       },
-      { property: "og:title", content: "GlamRide — Salon & Spa Services At Home" },
+      { property: "og:title", content: "GlamRide — Luxury Salon & Spa Services at Home" },
       {
         property: "og:description",
-        content: "Salon-grade beauty services delivered to your door.",
+        content:
+          "India's premier at-home beauty service. Five-star salon rituals delivered in the comfort of your home.",
       },
+      { property: "og:type", content: "website" },
+      { name: "keywords", content: "salon at home, beauty parlour at home, home spa, waxing at home, facial at home, bridal makeup at home" },
     ],
   }),
   component: Home,
 });
 
-const trustPoints = [
-  {
-    icon: ShieldCheck,
-    title: "Verified experts",
-    desc: "Every professional is vetted before booking.",
-  },
-  { icon: Clock, title: "Flexible slots", desc: "Choose the date and time that works for you." },
-  {
-    icon: BadgeCheck,
-    title: "Transparent pricing",
-    desc: "The price you see is the price you pay.",
-  },
-];
-
 function Home() {
   const { categories, subcatSections, isLoading } = useHomeData();
 
   return (
-    <div>
+    <div className="flex flex-col gap-12 sm:gap-16 lg:gap-24 overflow-x-hidden">
+      {/* 1. Full-width Hero */}
       <HomeHero />
 
-      {/* ---- Categories ---- */}
-      <Section>
-        <SectionHeading
-          eyebrow="Categories"
-          title="What are you in the mood for?"
-          action={
-            <Button asChild variant="outline">
-              <Link to="/services">View all</Link>
-            </Button>
-          }
-        />
-        {isLoading ? (
-          <div className="flex gap-3 overflow-x-auto pb-2">
-            {Array.from({ length: 6 }).map((_, i) => (
-              <Skeleton key={i} className="h-24 w-24 shrink-0 rounded-2xl" />
-            ))}
-          </div>
-        ) : (
-          <div className="flex gap-4 overflow-x-auto pb-2">
-            {categories.map((c) => (
-              <Link
-                key={c.id}
-                to="/services/$category"
-                params={{ category: c.id }}
-                className="flex shrink-0 flex-col items-center gap-2"
-              >
-                <span
-                  className="grid size-20 place-items-center rounded-2xl border border-border text-2xl transition-all duration-200 hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-soft"
-                  style={{ backgroundColor: c.accent }}
-                >
-                  ✨
-                </span>
-                <span className="max-w-[92px] text-center text-xs font-medium">{c.name}</span>
-              </Link>
-            ))}
-          </div>
-        )}
+      {/* 2. Quick Categories */}
+      <Section className="py-0 sm:py-0">
+        <QuickCategories categories={categories} isLoading={isLoading} />
       </Section>
 
-      {/* ---- Subcategory sections (curated rows from s_home_data.php) ---- */}
-      {subcatSections.map((section, i) => (
-        <Section key={`${section.cat_name}-${i}`} className="pt-0">
-          <SectionHeading title={section.cat_name} subtitle={section.cat_subtitle} />
+      {/* 3. Popular Services */}
+      <Section className="py-0 sm:py-0">
+        <PopularServices />
+      </Section>
+
+      {/* 4. Beauty Packages */}
+      <Section className="py-0 sm:py-0">
+        <BeautyPackages />
+      </Section>
+
+      {/* Subcategory Highlights (Curated catalogue categories) */}
+      {subcatSections.slice(0, 2).map((section, i) => (
+        <Section key={`${section.cat_name}-${i}`} className="py-0 sm:py-0">
+          <SectionHeading
+            eyebrow="Explore More"
+            title={section.cat_name}
+            subtitle={section.cat_subtitle || "Curated salon & spa rituals tailored for you."}
+          />
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-            {section.subcat_data.slice(0, 8).map((item, idx) => (
+            {section.subcat_data.slice(0, 4).map((item, idx) => (
               <TileCard
                 key={item.subcat_id}
                 tile={{
@@ -108,17 +81,19 @@ function Home() {
         </Section>
       ))}
 
-      {/* ---- Trust points (generic, policy-neutral) ---- */}
-      <Section className="pt-0">
-        <div className="grid gap-4 sm:grid-cols-3">
-          {trustPoints.map((t) => (
-            <div key={t.title} className="rounded-3xl border border-border bg-card p-6 shadow-soft">
-              <t.icon className="size-6 text-primary" />
-              <h3 className="mt-3 font-semibold">{t.title}</h3>
-              <p className="mt-1 text-sm text-muted-foreground">{t.desc}</p>
-            </div>
-          ))}
-        </div>
+      {/* 5. Why Choose GlamRide */}
+      <Section className="py-0 sm:py-0">
+        <WhyChooseUs />
+      </Section>
+
+      {/* 6. Customer Reviews */}
+      <Section className="py-0 sm:py-0">
+        <CustomerReviews />
+      </Section>
+
+      {/* 7. Download App Section */}
+      <Section className="py-0 sm:py-0 mb-4 sm:mb-8">
+        <DownloadApp />
       </Section>
     </div>
   );

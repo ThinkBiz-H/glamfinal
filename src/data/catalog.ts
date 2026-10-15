@@ -14,6 +14,8 @@ export type UiCategory = {
   name: string;
   icon: string;
   accent: string;
+  image?: string | undefined;
+  subtitle?: string | undefined;
 };
 
 export type UiTile = {
@@ -27,13 +29,13 @@ export type UiTile = {
 export type UiPackage = {
   id: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   image: string;
   price: number;
-  strikePrice?: number;
+  strikePrice?: number | undefined;
   discountPercent: number;
   qty: string;
-  ttken?: string;
+  ttken?: string | undefined;
   subcatId: string;
   catId: string;
 };
@@ -61,14 +63,17 @@ function hashIndex(id: string, mod: number) {
   return h % mod;
 }
 
-/** Maps a raw home-data Catlist row (verified field: cat_id, cat_name only). */
+/** Maps a raw home-data Catlist row (verified field: cat_id, cat_name, cat_img, cat_subtitle). */
 export function toUiCategory(raw: CategoryRow): UiCategory {
   const id = String(raw.cat_id);
+  const image = raw.cat_img ? resolveImageUrl(raw.cat_img) : undefined;
   return {
     id,
     name: raw.cat_name,
     icon: ICONS[hashIndex(id, ICONS.length)] ?? "Sparkles",
     accent: ACCENTS[hashIndex(id, ACCENTS.length)] ?? "var(--tint-primary)",
+    image,
+    subtitle: raw.cat_subtitle,
   };
 }
 
@@ -92,13 +97,13 @@ export function toUiPackage(raw: ServiceRow, subcatId: string, catId: string): U
   return {
     id: String(raw.id),
     name: raw.title,
-    description: raw.sdesc,
+    description: raw.sdesc ?? undefined,
     image: resolveImageUrl(raw.img),
     price: finalPrice,
     strikePrice: discountPercent > 0 ? Math.round(price) : undefined,
     discountPercent,
     qty: String(raw.mqty ?? ""),
-    ttken: raw.ttken,
+    ttken: raw.ttken ?? undefined,
     subcatId,
     catId: String(raw.mid ?? catId),
   };

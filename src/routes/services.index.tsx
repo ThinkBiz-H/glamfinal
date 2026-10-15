@@ -1,19 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import {
-  Sparkles,
-  Scissors,
-  Flower2,
-  Brush,
-  Hand,
-  Droplets,
-  Feather,
-  Footprints,
-  Crown,
-  Sun,
-  Waves,
-  Gift,
-} from "lucide-react";
-import { Section, SectionHeading, Reveal } from "@/components/site/primitives";
+import { Section, SectionHeading } from "@/components/site/primitives";
+import { CategoryCard } from "@/components/site/category-card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useHomeData } from "@/hooks/use-catalog";
 
@@ -35,21 +22,6 @@ export const Route = createFileRoute("/services/")({
   component: ServicesIndex,
 });
 
-const ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
-  Sparkles,
-  Scissors,
-  Flower2,
-  Brush,
-  Hand,
-  Droplets,
-  Feather,
-  Footprints,
-  Crown,
-  Sun,
-  Waves,
-  Gift,
-};
-
 function ServicesIndex() {
   const { categories, isLoading } = useHomeData();
 
@@ -57,49 +29,53 @@ function ServicesIndex() {
     <div>
       <div className="bg-hero">
         <Section className="py-12 sm:py-16">
-          <h1 className="text-4xl font-semibold sm:text-5xl">Browse services</h1>
-          <p className="mt-4 max-w-2xl text-lg text-muted-foreground">
-            Pick a category to see what's available near you.
+          <span className="text-xs font-bold tracking-widest text-primary uppercase">
+            GlamRide Catalogue
+          </span>
+          <h1 className="mt-1 text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-neutral-900">
+            Browse All Services
+          </h1>
+          <p className="mt-3 max-w-2xl text-base sm:text-lg text-muted-foreground">
+            Pick a service category to discover vetted experts, transparent pricing, and instant slots near you.
           </p>
         </Section>
       </div>
 
       <Section>
         {isLoading ? (
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
             {Array.from({ length: 8 }).map((_, i) => (
-              <Skeleton key={i} className="h-32 rounded-3xl" />
+              <div
+                key={i}
+                className="overflow-hidden rounded-2xl border border-neutral-200/80 bg-white shadow-soft"
+              >
+                <Skeleton className="aspect-16/10 w-full rounded-t-2xl rounded-b-none" />
+                <div className="p-3.5 sm:p-4 lg:p-5 space-y-2">
+                  <Skeleton className="h-5 w-3/4" />
+                  <Skeleton className="h-4 w-1/2" />
+                  <div className="pt-2">
+                    <Skeleton className="h-3 w-16" />
+                  </div>
+                </div>
+              </div>
             ))}
           </div>
         ) : categories.length === 0 ? (
           <p className="text-muted-foreground">No categories are available right now.</p>
         ) : (
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-            {categories.map((c, i) => {
-              const Icon = ICONS[c.icon] ?? Sparkles;
-              return (
-                <Reveal key={c.id} delay={Math.min(i * 0.04, 0.3)}>
-                  <Link
-                    to="/services/$category"
-                    params={{ category: c.id }}
-                    className="hover-lift flex h-32 flex-col items-center justify-center gap-3 rounded-3xl border border-border p-5 text-center shadow-soft"
-                    style={{ backgroundColor: c.accent }}
-                  >
-                    <Icon className="size-7" />
-                    <span className="text-sm font-semibold">{c.name}</span>
-                  </Link>
-                </Reveal>
-              );
-            })}
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
+            {categories.map((category, i) => (
+              <CategoryCard key={category.id} category={category} index={i} />
+            ))}
           </div>
         )}
       </Section>
 
       <Section className="pt-0">
-        <SectionHeading title="Not sure where to start?" subtitle="Search across every category." />
+        <SectionHeading title="Not sure where to start?" subtitle="Search across every service & ritual." />
         <Link
           to="/search"
-          className="hover-lift inline-flex items-center gap-2 rounded-xl border border-border bg-card px-6 py-3 text-sm font-medium shadow-soft"
+          className="hover-lift inline-flex items-center gap-2 rounded-xl border border-border bg-card px-6 py-3.5 text-sm font-semibold shadow-soft hover:border-primary/40"
         >
           Search services
         </Link>
