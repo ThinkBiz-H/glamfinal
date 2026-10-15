@@ -32,14 +32,29 @@ export function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-black shadow-[0_6px_24px_-12px_rgb(0_0_0/0.6)]">
-      <div className="mx-auto flex h-16 w-full max-w-7xl items-center gap-3 px-4 sm:h-18 sm:px-8">
-        <Link to="/" className={cn("flex shrink-0 items-center gap-3 rounded-lg", onDarkFocus)}>
-          <img src="/logo.png" alt="TheGlamRide" className="h-12 w-auto object-contain sm:h-16" />
+      {/* Mobile (<768px): 3-column grid (1fr · auto · 1fr) keeps the title exactly centred
+          whatever the icon widths. Tablet/desktop: the original flex row. */}
+      <div className="mx-auto grid h-16 w-full max-w-7xl grid-cols-[1fr_auto_1fr] items-center gap-2 px-4 sm:px-8 md:flex md:h-18 md:gap-3">
+        <Link
+          to="/"
+          className={cn(
+            "flex shrink-0 items-center gap-3 justify-self-start rounded-lg",
+            onDarkFocus,
+          )}
+        >
+          <img src="/logo.png" alt="TheGlamRide" className="h-11 w-auto object-contain md:h-16" />
 
-          <div className="hidden sm:flex flex-col leading-none">
+          <div className="hidden md:flex flex-col leading-none">
             <span className="text-xl font-bold tracking-wide text-white">TheGlamRide</span>
           </div>
         </Link>
+
+        <span
+          aria-hidden
+          className="truncate text-center font-display text-lg font-bold tracking-wide text-white md:hidden"
+        >
+          TheGlamRide
+        </span>
 
         <nav className="ml-6 hidden items-center gap-1 lg:flex">
           {nav.map((n) => (
@@ -56,7 +71,7 @@ export function Navbar() {
           ))}
         </nav>
 
-        <div className="ml-auto flex items-center gap-1.5 sm:gap-2">
+        <div className="ml-auto flex items-center gap-1 justify-self-end sm:gap-2">
           <span
             title={locationLabel}
             aria-live="polite"
@@ -70,7 +85,7 @@ export function Navbar() {
             <span className="truncate">{locationLabel}</span>
           </span>
 
-          <Button asChild variant="ghost" size="icon" className={iconButton}>
+          <Button asChild variant="ghost" size="icon" className={cn(iconButton, "max-md:hidden")}>
             <Link to="/search" aria-label="Search services">
               <Search className="size-5" />
             </Link>
@@ -90,7 +105,7 @@ export function Navbar() {
           <Button
             asChild
             className={cn(
-              "hidden bg-[#357ee5] text-white hover:bg-[#2563eb] sm:inline-flex",
+              "hidden bg-[#357ee5] text-white hover:bg-[#2563eb] md:inline-flex",
               onDarkFocus,
             )}
           >

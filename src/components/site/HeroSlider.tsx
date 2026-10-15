@@ -26,7 +26,14 @@ export function HeroSlider({ slides, className }: { slides: HeroSlide[]; classNa
   const multiple = slides.length > 1;
 
   return (
-    <div className={cn("relative h-full w-full overflow-hidden bg-black", className)}>
+    <div
+      className={cn(
+        "relative h-full w-full overflow-hidden bg-black",
+        // Mobile: height follows the banner's own aspect ratio — no crop, no bars.
+        "max-md:h-auto max-md:bg-transparent",
+        className,
+      )}
+    >
       <Swiper
         modules={[Autoplay, EffectFade]}
         effect="fade"
@@ -44,10 +51,25 @@ export function HeroSlider({ slides, className }: { slides: HeroSlide[]; classNa
         }
         onSwiper={setSwiper}
         onSlideChange={(s) => setActive(s.realIndex)}
-        className="h-full w-full"
+        className="h-full w-full max-md:h-auto"
       >
         {slides.map((slide, index) => (
-          <SwiperSlide key={slide.id} className="flex items-center justify-center bg-black">
+          <SwiperSlide
+            key={slide.id}
+            className="flex items-center justify-center bg-black max-md:bg-transparent"
+          >
+            {/* Mobile only: banners render at their natural height, so this blurred copy is
+                normally hidden behind them. It only shows if banners differ in shape (a shorter
+                one sits on a soft fill instead of black). Same URL, no extra download; hidden ≥md. */}
+            <img
+              src={slide.src}
+              alt=""
+              aria-hidden
+              loading={index === 0 ? "eager" : "lazy"}
+              decoding="async"
+              draggable={false}
+              className="pointer-events-none absolute inset-0 h-full w-full scale-110 object-cover object-center blur-2xl brightness-75 saturate-125 select-none md:hidden"
+            />
             <img
               src={slide.src}
               alt={slide.alt}
@@ -66,6 +88,9 @@ export function HeroSlider({ slides, className }: { slides: HeroSlide[]; classNa
                 select-none
                 transition-all
                 duration-700
+
+                max-md:relative
+                max-md:h-auto
               "
             />
           </SwiperSlide>

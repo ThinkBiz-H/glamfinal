@@ -60,15 +60,11 @@ export function HomeHero() {
 
   return (
     <section aria-label="Hero Banner" className="relative w-full">
-      <div
-        className="relative overflow-hidden
-h-[520px]
-sm:h-[600px]
-md:h-[700px]
-lg:h-[950px]"
-      >
+      {/* Mobile (<768px): card sits above the banner and the banner takes its natural
+          height, so the whole image shows. Tablet/desktop keep the fixed-height overlay layout. */}
+      <div className="relative flex flex-col md:block md:h-[700px] md:overflow-hidden lg:h-[950px]">
         {isLoading ? (
-          <Skeleton className="h-full w-full rounded-none" />
+          <Skeleton className="aspect-video w-full rounded-none md:aspect-auto md:h-full" />
         ) : (
           <HeroSlider slides={slides} className="h-full w-full" />
         )}
@@ -76,15 +72,15 @@ lg:h-[950px]"
         {/* Readability overlays: darker behind the floating card and the slide dots, clear in the middle. */}
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-x-0 top-0 z-10 h-44 bg-linear-to-b from-black/40 via-black/15 to-transparent sm:h-56 lg:h-72"
+          className="pointer-events-none absolute inset-x-0 top-0 z-10 hidden h-56 bg-linear-to-b from-black/40 via-black/15 to-transparent md:block lg:h-72"
         />
         <div
           aria-hidden
-          className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-32 bg-linear-to-t from-black/35 to-transparent lg:h-44"
+          className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-14 bg-linear-to-t from-black/30 to-transparent md:h-32 md:from-black/35 lg:h-44"
         />
 
         {/* Floating Top-Center Glass Search Card (max-w-3xl) */}
-        <div className="absolute top-4 left-1/2 z-30 w-[calc(100%-2rem)] max-w-3xl -translate-x-1/2 rounded-2xl border border-white/70 bg-white/85 p-3.5 shadow-[0_16px_40px_rgba(0,0,0,0.18)] backdrop-blur-xl transition-all sm:top-6 sm:w-[calc(100%-4rem)] sm:rounded-3xl sm:p-4.5 lg:top-8">
+        <div className="relative z-30 order-first mx-auto my-3 w-[calc(100%-2rem)] max-w-3xl rounded-2xl border border-white/70 bg-white/85 p-3.5 shadow-[0_16px_40px_rgba(0,0,0,0.18)] backdrop-blur-xl transition-all sm:w-[calc(100%-4rem)] sm:rounded-3xl sm:p-4.5 md:absolute md:top-6 md:left-1/2 md:my-0 md:-translate-x-1/2 lg:top-8">
           {/* Current GPS Location & Full Address */}
           <div className="mb-3 flex items-center gap-2.5 px-1 sm:px-2">
             <div className="relative grid h-8 w-8 sm:h-9 sm:w-9 place-items-center rounded-full bg-black/5 shrink-0">
